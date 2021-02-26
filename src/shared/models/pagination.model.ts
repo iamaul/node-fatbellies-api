@@ -3,7 +3,7 @@ export interface Pagination {
     limit?: number;
     count?: number;
     total?: number;
-    prevPage?: number | undefined;
-    nextPage?: number | undefined;
+    prevPage?: number;
+    nextPage?: number;
     totalPages?: number; 
 }

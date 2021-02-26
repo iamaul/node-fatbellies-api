@@ -1,0 +1,13 @@
+{
+    "entryFile": "./src/app.ts",
+    "spec": {
+        "host": "localhost:5000",
+        "basePath": "/api",
+        "outputDirectory": "./src/docs",
+        "specVersion": 2
+    },
+    "routes": {
+        "basePath": "/api",
+        "routesDir": "./src/routes"
+    }
+}

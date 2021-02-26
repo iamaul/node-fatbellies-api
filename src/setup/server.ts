@@ -7,6 +7,10 @@ import { errorHandler, Logger, Database } from '../shared';
 
 import { branchesRouter, branchesRoute, mealPlansRouter, mealPlansRoute } from '../routes';
 
+import { RegisterRoutes } from '../routes/routes';
+import SwaggerJSON from '../docs/swagger.json';
+import SwaggerUI from 'swagger-ui-express';
+
 function setupProduction(app: Application): void {
     if (config.APP.NODE_ENV === 'production') {
         app.use(helmet());
@@ -32,6 +36,15 @@ function setupRoutes(app: Application): void {
      */
     app.use(baseRoute + branchesRoute, branchesRouter);
     app.use(baseRoute + mealPlansRoute, mealPlansRouter);
+    RegisterRoutes(app);
+}
+
+function startSwagger(app: Application): void {
+    try {
+        app.use('/docs', SwaggerUI.serve, SwaggerUI.setup(SwaggerJSON));
+    } catch (error) {
+        Logger.error(error);
+    }
 }
 
 export function setupServer(app: Application): void {
@@ -41,6 +54,7 @@ export function setupServer(app: Application): void {
     setupProduction(app);
     setRequestOptions(app);
     setupRoutes(app);
+    startSwagger(app);
     app.use(errorHandler);
 }
 

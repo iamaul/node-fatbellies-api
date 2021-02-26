@@ -1,12 +1,17 @@
 import { Op } from 'sequelize';
-import { AppErrorCode, Database, DataResult, paginate, generatePagination } from '../../../shared';
+import { Route, Get, Post, Put, Path, Query, Body, Tags, Delete } from 'tsoa';
+import { Database, DataResult, paginate, generatePagination } from '../../../shared';
 import { MealPlanDTO, CreateMealPlanDTO, UpdateMealPlanDTO } from '../dto';
 
 /**
  * Represents a MealPlan Data Access Object
  */
+@Route('mealplans')
+@Tags('mealplans')
 export class MealPlanDAO {
-    public static async fetch(page: number, pageSize: number): Promise<DataResult<MealPlanDTO[]>> {
+
+    @Get()
+    public async fetch(@Query('page') page: number, @Query('limit') pageSize: number): Promise<DataResult<MealPlanDTO[]>> {
         const result: DataResult<MealPlanDTO[]> = {};
 
         try {
@@ -30,13 +35,14 @@ export class MealPlanDAO {
         return result;
     }
 
-    public static async search(
-        column: any, 
-        keyword: any, 
-        columnOrder: any, 
-        order: any,
-        page: number,
-        pageSize: number
+    @Post('search')
+    public async search(
+        @Query('column') column: any, 
+        @Query('q') keyword: any, 
+        @Query('order_column') columnOrder?: any, 
+        @Query('order') order?: any,
+        @Query('page') page?: number,
+        @Query('limit') pageSize?: number
     ): Promise<DataResult<MealPlanDTO[]>> {
         const result: DataResult<MealPlanDTO[]> = {};
         
@@ -69,7 +75,8 @@ export class MealPlanDAO {
         return result;
     }
 
-    public static async create(data: CreateMealPlanDTO): Promise<DataResult<MealPlanDTO>> {
+    @Post()
+    public async create(@Body() data: CreateMealPlanDTO): Promise<DataResult<MealPlanDTO>> {
         const result: DataResult<MealPlanDTO> = {};
 
         try {
@@ -82,7 +89,8 @@ export class MealPlanDAO {
         return result;
     }
 
-    public static async update(data: UpdateMealPlanDTO): Promise<DataResult<MealPlanDTO>> {
+    @Put()
+    public async update(@Body() data: UpdateMealPlanDTO): Promise<DataResult<MealPlanDTO>> {
         const result: DataResult<MealPlanDTO> = {};
 
         try {
@@ -102,7 +110,8 @@ export class MealPlanDAO {
         return result;
     }
 
-    public static async delete(id: string): Promise<DataResult<MealPlanDTO>> {
+    @Delete('{id}')
+    public async delete(@Path() id: string): Promise<DataResult<MealPlanDTO>> {
         const result: DataResult<MealPlanDTO> = {};
         
         try {
@@ -124,7 +133,8 @@ export class MealPlanDAO {
         return result;
     }
 
-    public static async findById(id: string): Promise<DataResult<MealPlanDTO>> {
+    @Get('{id}')
+    public async findById(@Path() id: string): Promise<DataResult<MealPlanDTO>> {
         const result: DataResult<MealPlanDTO> = {};
 
         try {

@@ -4,14 +4,16 @@ import {
     Res, 
     NotFound, 
     validationErrorFormatter, 
-    BadRequest
+    BadRequest,
+    DataResult
 } from '../../shared';
 import {
     MealPlanDAO,
     createMealPlanValidator,
     CreateMealPlanDTO,
     updateMealPlanValidator,
-    UpdateMealPlanDTO
+    UpdateMealPlanDTO,
+    MealPlanDTO
 } from '../../domain';
 
 /**
@@ -20,6 +22,17 @@ import {
 export const mealPlansRouter = Router();
 
 export const mealPlansRoute = 'mealplans';
+
+interface IMealPlanDAO {
+    fetch(page: number, pageSize: number): Promise<DataResult<MealPlanDTO[]>>;
+    search(column: any, keyword: any, columnOrder: any, order: any, page: number, pageSize: number): Promise<DataResult<MealPlanDTO[]>>;
+    findById(id: string): Promise<DataResult<MealPlanDTO>>;
+    create(data: CreateMealPlanDTO): Promise<DataResult<MealPlanDTO>>;
+    update(data: UpdateMealPlanDTO): Promise<DataResult<MealPlanDTO>>;
+    delete(id: string): Promise<DataResult<MealPlanDTO>>;
+}
+
+const mealPlanDAO: IMealPlanDAO = new MealPlanDAO();
 
 /**
  * @method GET
@@ -37,7 +50,7 @@ mealPlansRouter.get('', async (req: Request, res: Response, next: NextFunction) 
             return BadRequest(res, { errors: validationErrors, success: false });
         } 
 
-        const result = await MealPlanDAO.fetch(parseInt(req.query.page as string), parseInt(req.query.limit as string));
+        const result = await mealPlanDAO.fetch(parseInt(req.query.page as string), parseInt(req.query.limit as string));
 
         if (result.error) {
             next(result.error);
@@ -71,7 +84,7 @@ mealPlansRouter.post('/search', async (req: Request, res: Response, next: NextFu
             return BadRequest(res, { errors: validationErrors, success: false });
         } 
 
-        const result = await MealPlanDAO.search(
+        const result = await mealPlanDAO.search(
             req.query.column,
             req.query.q,
             req.query.order_column,
@@ -112,7 +125,7 @@ mealPlansRouter.get('/:id', async (req: Request, res: Response, next: NextFuncti
             return BadRequest(res, { errors: validationErrors, success: false });
         }
         
-        const result = await MealPlanDAO.findById(req.params.id);
+        const result = await mealPlanDAO.findById(req.params.id);
 
         if (result.error) {
             next(result.error);
@@ -148,7 +161,7 @@ mealPlansRouter.post('', createMealPlanValidator, async (req: Request, res: Resp
         }
 
         const data: CreateMealPlanDTO = req.body;
-        const result = await MealPlanDAO.create(data);
+        const result = await mealPlanDAO.create(data);
 
         if (result.error) {
             next(result.error);
@@ -184,7 +197,7 @@ mealPlansRouter.put('', updateMealPlanValidator, async (req: Request, res: Respo
         }
 
         const data: UpdateMealPlanDTO = req.body;
-        const result = await MealPlanDAO.update(data);
+        const result = await mealPlanDAO.update(data);
 
         if (result.error) {
             next(result.error);
@@ -221,7 +234,7 @@ mealPlansRouter.delete('/:id', async (req: Request, res: Response, next: NextFun
             return BadRequest(res, { errors: validationErrors, success: false });
         }
         
-        const result = await MealPlanDAO.delete(req.params.id);
+        const result = await mealPlanDAO.delete(req.params.id);
 
         if (result.error) {
             next(result.error);

@@ -4,14 +4,16 @@ import {
     Res, 
     NotFound, 
     validationErrorFormatter, 
-    BadRequest
+    BadRequest,
+    DataResult
 } from '../../shared';
 import {
     BranchDAO,
     createBranchValidator,
     CreateBranchDTO,
     updateBranchValidator,
-    UpdateBranchDTO
+    UpdateBranchDTO,
+    BranchDTO
 } from '../../domain';
 
 /**
@@ -20,6 +22,17 @@ import {
 export const branchesRouter = Router();
 
 export const branchesRoute = 'branches';
+
+interface IBranchDAO {
+    fetch(page: number, pageSize: number): Promise<DataResult<BranchDTO[]>>;
+    search(column: any, keyword: any, columnOrder: any, order: any, page: number, pageSize: number): Promise<DataResult<BranchDTO[]>>;
+    findById(id: string): Promise<DataResult<BranchDTO>>;
+    create(data: CreateBranchDTO): Promise<DataResult<BranchDTO>>;
+    update(data: UpdateBranchDTO): Promise<DataResult<BranchDTO>>;
+    delete(id: string): Promise<DataResult<BranchDTO>>;
+}
+
+const branchDAO: IBranchDAO = new BranchDAO();
 
 /**
  * @method GET
@@ -37,7 +50,7 @@ branchesRouter.get('', async (req: Request, res: Response, next: NextFunction) =
             return BadRequest(res, { errors: validationErrors, success: false });
         } 
 
-        const result = await BranchDAO.fetch(parseInt(req.query.page as string), parseInt(req.query.limit as string));
+        const result = await branchDAO.fetch(parseInt(req.query.page as string), parseInt(req.query.limit as string));
 
         if (result.error) {
             next(result.error);
@@ -71,7 +84,7 @@ branchesRouter.post('/search', async (req: Request, res: Response, next: NextFun
             return BadRequest(res, { errors: validationErrors, success: false });
         } 
 
-        const result = await BranchDAO.search(
+        const result = await branchDAO.search(
             req.query.column,
             req.query.q,
             req.query.order_column,
@@ -112,7 +125,7 @@ branchesRouter.get('/:id', async (req: Request, res: Response, next: NextFunctio
             return BadRequest(res, { errors: validationErrors, success: false });
         }
         
-        const result = await BranchDAO.findById(req.params.id);
+        const result = await branchDAO.findById(req.params.id);
 
         if (result.error) {
             next(result.error);
@@ -148,7 +161,7 @@ branchesRouter.post('', createBranchValidator, async (req: Request, res: Respons
         }
 
         const data: CreateBranchDTO = req.body;
-        const result = await BranchDAO.create(data);
+        const result = await branchDAO.create(data);
 
         if (result.error) {
             next(result.error);
@@ -184,7 +197,7 @@ branchesRouter.put('', updateBranchValidator, async (req: Request, res: Response
         }
 
         const data: UpdateBranchDTO = req.body;
-        const result = await BranchDAO.update(data);
+        const result = await branchDAO.update(data);
 
         if (result.error) {
             next(result.error);
@@ -221,7 +234,7 @@ branchesRouter.delete('/:id', async (req: Request, res: Response, next: NextFunc
             return BadRequest(res, { errors: validationErrors, success: false });
         }
         
-        const result = await BranchDAO.delete(req.params.id);
+        const result = await branchDAO.delete(req.params.id);
 
         if (result.error) {
             next(result.error);

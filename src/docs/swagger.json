@@ -1,0 +1,881 @@
+{
+	"basePath": "/api",
+	"consumes": [
+		"application/json"
+	],
+	"definitions": {
+		"BranchDTO": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"latitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"longitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"opening_hours": {
+					"type": "number",
+					"format": "double"
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedAt": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"id",
+				"name",
+				"latitude",
+				"longitude",
+				"opening_hours",
+				"createdAt",
+				"updatedAt"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"Pagination": {
+			"properties": {
+				"page": {
+					"type": "number",
+					"format": "double"
+				},
+				"limit": {
+					"type": "number",
+					"format": "double"
+				},
+				"count": {
+					"type": "number",
+					"format": "double"
+				},
+				"total": {
+					"type": "number",
+					"format": "double"
+				},
+				"prevPage": {
+					"type": "number",
+					"format": "double"
+				},
+				"nextPage": {
+					"type": "number",
+					"format": "double"
+				},
+				"totalPages": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"type": "object",
+			"additionalProperties": true
+		},
+		"AppErrorCode": {
+			"enum": [
+				401,
+				403,
+				500,
+				400,
+				422,
+				411,
+				409,
+				400,
+				404
+			],
+			"type": "number"
+		},
+		"AppHttpResponseError": {
+			"properties": {
+				"code": {
+					"$ref": "#/definitions/AppErrorCode"
+				},
+				"source": {
+					"type": "string"
+				},
+				"error": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			},
+			"type": "object",
+			"additionalProperties": true
+		},
+		"Error": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"message": {
+					"type": "string"
+				},
+				"stack": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"name",
+				"message"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"DataResult_BranchDTO-Array_": {
+			"properties": {
+				"data": {
+					"items": {
+						"$ref": "#/definitions/BranchDTO"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"pagination": {
+					"$ref": "#/definitions/Pagination"
+				},
+				"validationErrors": {
+					"items": {
+						"$ref": "#/definitions/AppHttpResponseError"
+					},
+					"type": "array"
+				},
+				"isNotFound": {
+					"type": "boolean"
+				},
+				"error": {
+					"$ref": "#/definitions/Error"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			},
+			"type": "object",
+			"additionalProperties": true
+		},
+		"DataResult_BranchDTO_": {
+			"properties": {
+				"data": {
+					"type": "object"
+				},
+				"pagination": {
+					"$ref": "#/definitions/Pagination"
+				},
+				"validationErrors": {
+					"items": {
+						"$ref": "#/definitions/AppHttpResponseError"
+					},
+					"type": "array"
+				},
+				"isNotFound": {
+					"type": "boolean"
+				},
+				"error": {
+					"$ref": "#/definitions/Error"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			},
+			"type": "object",
+			"additionalProperties": true
+		},
+		"CreateBranchDTO": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"latitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"longitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"opening_hours": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"name",
+				"latitude",
+				"longitude",
+				"opening_hours"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"UpdateBranchDTO": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"latitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"longitude": {
+					"type": "number",
+					"format": "double"
+				},
+				"opening_hours": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"id",
+				"name",
+				"latitude",
+				"longitude",
+				"opening_hours"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"MealPlanDTO": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"fk_branch_id": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"day": {
+					"type": "string"
+				},
+				"max_capacity": {
+					"type": "number",
+					"format": "double"
+				},
+				"price": {
+					"type": "number",
+					"format": "double"
+				},
+				"startTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"endTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"updatedAt": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"id",
+				"fk_branch_id",
+				"name",
+				"day",
+				"max_capacity",
+				"price",
+				"startTime",
+				"endTime",
+				"createdAt",
+				"updatedAt"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"DataResult_MealPlanDTO-Array_": {
+			"properties": {
+				"data": {
+					"items": {
+						"$ref": "#/definitions/MealPlanDTO"
+					},
+					"type": "array",
+					"x-nullable": true
+				},
+				"pagination": {
+					"$ref": "#/definitions/Pagination"
+				},
+				"validationErrors": {
+					"items": {
+						"$ref": "#/definitions/AppHttpResponseError"
+					},
+					"type": "array"
+				},
+				"isNotFound": {
+					"type": "boolean"
+				},
+				"error": {
+					"$ref": "#/definitions/Error"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			},
+			"type": "object",
+			"additionalProperties": true
+		},
+		"DataResult_MealPlanDTO_": {
+			"properties": {
+				"data": {
+					"type": "object"
+				},
+				"pagination": {
+					"$ref": "#/definitions/Pagination"
+				},
+				"validationErrors": {
+					"items": {
+						"$ref": "#/definitions/AppHttpResponseError"
+					},
+					"type": "array"
+				},
+				"isNotFound": {
+					"type": "boolean"
+				},
+				"error": {
+					"$ref": "#/definitions/Error"
+				},
+				"success": {
+					"type": "boolean"
+				}
+			},
+			"type": "object",
+			"additionalProperties": true
+		},
+		"CreateMealPlanDTO": {
+			"properties": {
+				"fk_branch_id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"name": {
+					"type": "string"
+				},
+				"day": {
+					"type": "string"
+				},
+				"max_capacity": {
+					"type": "number",
+					"format": "double"
+				},
+				"price": {
+					"type": "number",
+					"format": "double"
+				},
+				"startTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"endTime": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"fk_branch_id",
+				"name",
+				"day",
+				"max_capacity",
+				"price",
+				"startTime",
+				"endTime"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"UpdateMealPlanDTO": {
+			"properties": {
+				"id": {
+					"type": "string"
+				},
+				"fk_branch_id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"name": {
+					"type": "string"
+				},
+				"day": {
+					"type": "string"
+				},
+				"max_capacity": {
+					"type": "number",
+					"format": "double"
+				},
+				"price": {
+					"type": "number",
+					"format": "double"
+				},
+				"startTime": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"endTime": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"id",
+				"fk_branch_id",
+				"name",
+				"day",
+				"max_capacity",
+				"price",
+				"startTime",
+				"endTime"
+			],
+			"type": "object",
+			"additionalProperties": true
+		}
+	},
+	"info": {
+		"title": "fatbellies-api",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "iamaul"
+		}
+	},
+	"paths": {
+		"/branches": {
+			"get": {
+				"operationId": "Fetch",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_BranchDTO-Array_"
+						}
+					}
+				},
+				"tags": [
+					"branches"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"format": "double",
+						"type": "number"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_BranchDTO_"
+						}
+					}
+				},
+				"tags": [
+					"branches"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/CreateBranchDTO"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_BranchDTO_"
+						}
+					}
+				},
+				"tags": [
+					"branches"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UpdateBranchDTO"
+						}
+					}
+				]
+			}
+		},
+		"/branches/search": {
+			"post": {
+				"operationId": "Search",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_BranchDTO-Array_"
+						}
+					}
+				},
+				"tags": [
+					"branches"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "column",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "q",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "order_column",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "order",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"format": "double",
+						"type": "number"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/branches/{id}": {
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_BranchDTO_"
+						}
+					}
+				},
+				"tags": [
+					"branches"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"get": {
+				"operationId": "FindById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_BranchDTO_"
+						}
+					}
+				},
+				"tags": [
+					"branches"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/mealplans": {
+			"get": {
+				"operationId": "Fetch",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_MealPlanDTO-Array_"
+						}
+					}
+				},
+				"tags": [
+					"mealplans"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			},
+			"post": {
+				"operationId": "Create",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_MealPlanDTO_"
+						}
+					}
+				},
+				"tags": [
+					"mealplans"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/CreateMealPlanDTO"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_MealPlanDTO_"
+						}
+					}
+				},
+				"tags": [
+					"mealplans"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/UpdateMealPlanDTO"
+						}
+					}
+				]
+			}
+		},
+		"/mealplans/search": {
+			"post": {
+				"operationId": "Search",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_MealPlanDTO-Array_"
+						}
+					}
+				},
+				"tags": [
+					"mealplans"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "column",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "q",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "order_column",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "order",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"format": "double",
+						"type": "number"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
+		"/mealplans/{id}": {
+			"delete": {
+				"operationId": "Delete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_MealPlanDTO_"
+						}
+					}
+				},
+				"tags": [
+					"mealplans"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			},
+			"get": {
+				"operationId": "FindById",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_MealPlanDTO_"
+						}
+					}
+				},
+				"tags": [
+					"mealplans"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		}
+	},
+	"produces": [
+		"application/json"
+	],
+	"swagger": "2.0",
+	"securityDefinitions": {},
+	"host": "localhost:5000"
+}

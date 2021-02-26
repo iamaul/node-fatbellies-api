@@ -1,12 +1,17 @@
 import { Op } from 'sequelize';
+import { Controller, Route, Get, Post, Put, Path, Query, Body, Tags, Delete } from 'tsoa';
 import { AppErrorCode, Database, DataResult, paginate, generatePagination } from '../../../shared';
 import { BranchDTO, CreateBranchDTO, UpdateBranchDTO } from '../dto';
 
 /**
  * Represents a Branch Data Access Object
  */
-export class BranchDAO {
-    public static async fetch(page: number, pageSize: number): Promise<DataResult<BranchDTO[]>> {
+@Route('branches')
+@Tags('branches')
+export class BranchDAO extends Controller {
+
+    @Get()
+    public async fetch(@Query('page') page?: number, @Query('limit') pageSize?: number): Promise<DataResult<BranchDTO[]>> {
         const result: DataResult<BranchDTO[]> = {};
 
         try {
@@ -30,13 +35,14 @@ export class BranchDAO {
         return result;
     }
 
-    public static async search(
-        column: any, 
-        keyword: any, 
-        columnOrder: any, 
-        order: any,
-        page: number,
-        pageSize: number
+    @Post('search')
+    public async search(
+        @Query('column') column: any, 
+        @Query('q') keyword: any, 
+        @Query('order_column') columnOrder?: any, 
+        @Query('order') order?: any,
+        @Query('page') page?: number,
+        @Query('limit') pageSize?: number
     ): Promise<DataResult<BranchDTO[]>> {
         const result: DataResult<BranchDTO[]> = {};
         
@@ -69,7 +75,8 @@ export class BranchDAO {
         return result;
     }
 
-    public static async create(data: CreateBranchDTO): Promise<DataResult<BranchDTO>> {
+    @Post()
+    public async create(@Body() data: CreateBranchDTO): Promise<DataResult<BranchDTO>> {
         const result: DataResult<BranchDTO> = {};
 
         try {
@@ -95,7 +102,8 @@ export class BranchDAO {
         return result;
     }
 
-    public static async update(data: UpdateBranchDTO): Promise<DataResult<BranchDTO>> {
+    @Put()
+    public async update(@Body() data: UpdateBranchDTO): Promise<DataResult<BranchDTO>> {
         const result: DataResult<BranchDTO> = {};
 
         try {
@@ -133,7 +141,8 @@ export class BranchDAO {
         return result;
     }
 
-    public static async delete(id: string): Promise<DataResult<BranchDTO>> {
+    @Delete('{id}')
+    public async delete(@Path() id: string): Promise<DataResult<BranchDTO>> {
         const result: DataResult<BranchDTO> = {};
         
         try {
@@ -155,7 +164,8 @@ export class BranchDAO {
         return result;
     }
 
-    public static async findById(id: string): Promise<DataResult<BranchDTO>> {
+    @Get('{id}')
+    public async findById(@Path() id: string): Promise<DataResult<BranchDTO>> {
         const result: DataResult<BranchDTO> = {};
 
         try {
