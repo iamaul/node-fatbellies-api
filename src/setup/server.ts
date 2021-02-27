@@ -63,7 +63,7 @@ export function startServer(app: Application): void {
     /**
      * The server will start unless database is connected
      */
-    Database.connection(true).then(() =>
+    Database.connection().then(() =>
         app.listen(port, () => Logger.info(`${process.env.APP_NAME} is running on port ${port}`, null, true))
     );
 }
