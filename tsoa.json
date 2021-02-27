@@ -1,7 +1,7 @@
 {
     "entryFile": "./src/app.ts",
     "spec": {
-        "host": "localhost:5000",
+        "host": "52.77.204.112:5000",
         "basePath": "/api",
         "outputDirectory": "./src/docs",
         "specVersion": 2

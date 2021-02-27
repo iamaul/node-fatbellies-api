@@ -1,7 +1,7 @@
 #
 # Builder stage.
 #
-FROM node:12.13.0 AS builder
+FROM node:14.16.0 AS builder
 
 RUN mkdir -p /fatbellies/node
 
@@ -14,7 +14,7 @@ RUN npm ci --quiet && npm run build
 #
 # Production stage.
 #
-FROM node:12.13.0-alpine
+FROM node:14.16.0-alpine
 
 RUN mkdir -p /fatbellies/app
 

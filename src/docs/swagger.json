@@ -913,5 +913,5 @@
 	],
 	"swagger": "2.0",
 	"securityDefinitions": {},
-	"host": "localhost:5000"
+	"host": "52.77.204.112:5000"
 }
