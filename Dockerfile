@@ -1,7 +1,7 @@
 #
 # Builder stage.
 #
-FROM node:12.13.0 AS builder
+FROM node:14.16.0 AS builder
 
 WORKDIR /fatbellies/node
 
@@ -12,7 +12,7 @@ RUN npm ci --quiet && npm run build
 #
 # Production stage.
 #
-FROM node:12.13.0-alpine
+FROM node:14.16.0
 
 WORKDIR /fatbellies/app
 ENV NODE_ENV=production
