@@ -6,20 +6,17 @@ import { MealPlan, Branch } from '../models';
  * Database connection
  */
 
-const connectionUri = `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
-console.log(connectionUri);
+// const connectionUri = `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+// console.log(connectionUri);
 
 /**
  * A singleton instance of sequelize
  */
-const sequelize = new Sequelize(connectionUri, {
-    dialectOptions: { timezone: 'Etc/GMT+7' },
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
+const sequelize = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_USER}`, `${process.env.DB_PASSWORD}`, {
+    host: process.env.DB_HOST,
+    port: 5432,
+    dialect: 'postgres',
+    logging: false
 });
 
 /**
