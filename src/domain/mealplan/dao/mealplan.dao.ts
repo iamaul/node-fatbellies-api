@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { Route, Get, Post, Put, Path, Query, Body, Tags, Delete } from 'tsoa';
+import { Controller, Route, Get, Post, Put, Path, Query, Body, Tags, Delete } from 'tsoa';
 import { Database, DataResult, paginate, generatePagination } from '../../../shared';
 import { MealPlanDTO, CreateMealPlanDTO, UpdateMealPlanDTO } from '../dto';
 
@@ -8,7 +8,7 @@ import { MealPlanDTO, CreateMealPlanDTO, UpdateMealPlanDTO } from '../dto';
  */
 @Route('mealplans')
 @Tags('mealplans')
-export class MealPlanDAO {
+export class MealPlanDAO extends Controller {
 
     @Get()
     public async fetch(@Query('page') page?: number, @Query('limit') pageSize?: number): Promise<DataResult<MealPlanDTO[]>> {
