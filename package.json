@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "nodemon",
     "build": "rimraf ./build && tsc",
-    "start": "npm run build && build/app.js",
+    "start": "npm run build && node build/app.js",
     "tsoa:generate": "tsoa routes && tsoa swagger",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "husky install"
