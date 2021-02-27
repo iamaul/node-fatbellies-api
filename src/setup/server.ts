@@ -12,7 +12,7 @@ import SwaggerJSON from '../docs/swagger.json';
 import SwaggerUI from 'swagger-ui-express';
 
 function setupProduction(app: Application): void {
-    if (config.APP.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
         app.use(helmet());
 
         // Gzip compressing: decrease the size of the response body
@@ -59,12 +59,12 @@ export function setupServer(app: Application): void {
 }
 
 export function startServer(app: Application): void {
-    const port = config.APP.PORT || 3000;
+    const port = process.env.PORT || 3000;
 
     /**
      * The server will start unless database is connected
      */
     Database.connection(true).then(() =>
-        app.listen(port, () => Logger.info(`${config.APP.NAME} is running on port ${port}`, null, true))
+        app.listen(port, () => Logger.info(`${process.env.APP_NAME} is running on port ${port}`, null, true))
     );
 }
