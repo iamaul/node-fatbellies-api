@@ -22,5 +22,3 @@ RUN npm ci --quiet --only=production
 
 ## We just need the build to execute the command
 COPY --from=builder /fatbellies/node/build ./build
-
-CMD ["node", "build/app.js"]
