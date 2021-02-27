@@ -40,7 +40,7 @@ function setupRoutes(app: Application): void {
 
 function startSwagger(app: Application): void {
     try {
-        app.use('/docs', SwaggerUI.serve, SwaggerUI.setup(SwaggerJSON));
+        app.use('/api/docs', SwaggerUI.serve, SwaggerUI.setup(SwaggerJSON));
     } catch (error) {
         Logger.error(error);
     }
