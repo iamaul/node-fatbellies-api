@@ -12,7 +12,7 @@ RUN npm ci --quiet && npm run build
 #
 # Production stage.
 #
-FROM node:14.16.0
+FROM node:14.16.0-alpine
 
 WORKDIR /fatbellies/app
 ENV NODE_ENV=production
