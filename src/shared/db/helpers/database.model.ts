@@ -7,7 +7,7 @@ import { MealPlan, Branch } from '../models';
  * Database connection
  */
 
-const connectionUri = `postgres://${config.DATABASE.USER}:${config.DATABASE.PASSWORD}@${config.DATABASE.HOST}:${config.DATABASE.PORT}/${config.DATABASE.NAME}`;
+const connectionUri = `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 
 /**
  * A singleton instance of sequelize
