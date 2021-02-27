@@ -2,7 +2,6 @@ import express, { Application } from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
-import { config } from '../config';
 import { errorHandler, Logger, Database } from '../shared';
 
 import { branchesRouter, branchesRoute, mealPlansRouter, mealPlansRoute } from '../routes';
