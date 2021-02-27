@@ -115,7 +115,7 @@ export class BranchDAO extends Controller {
                     'longitude',
                     'opening_hours',
                     [
-                        Sequelize.literal(`6371 * acos(cos(radians(${lat})) * cos(radians(latitude)) * cos(radians(${long}) - radians(longitude)) + sin(radians(${lat})) * sin(radians(latitude)))`),
+                        Sequelize.literal(`(3959 * acos(cos(radians(${long})) * cos(radians(latitude)) * cos(radians(longitude) - radians(${lat})) + sin(radians(${long})) * sin(radians(latitude))))`),
                         'distance'
                     ],
                 ],
