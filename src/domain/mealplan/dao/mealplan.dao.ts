@@ -11,7 +11,7 @@ import { MealPlanDTO, CreateMealPlanDTO, UpdateMealPlanDTO } from '../dto';
 export class MealPlanDAO {
 
     @Get()
-    public async fetch(@Query('page') page: number, @Query('limit') pageSize: number): Promise<DataResult<MealPlanDTO[]>> {
+    public async fetch(@Query('page') page?: number, @Query('limit') pageSize?: number): Promise<DataResult<MealPlanDTO[]>> {
         const result: DataResult<MealPlanDTO[]> = {};
 
         try {

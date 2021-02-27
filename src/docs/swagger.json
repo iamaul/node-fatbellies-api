@@ -611,6 +611,42 @@
 				]
 			}
 		},
+		"/branches/nearby": {
+			"post": {
+				"operationId": "NearbyBranch",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DataResult_BranchDTO-Array_"
+						}
+					}
+				},
+				"tags": [
+					"branches"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "long",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					},
+					{
+						"in": "query",
+						"name": "lat",
+						"required": true,
+						"format": "double",
+						"type": "number"
+					}
+				]
+			}
+		},
 		"/branches/{id}": {
 			"delete": {
 				"operationId": "Delete",
@@ -687,14 +723,14 @@
 					{
 						"in": "query",
 						"name": "page",
-						"required": true,
+						"required": false,
 						"format": "double",
 						"type": "number"
 					},
 					{
 						"in": "query",
 						"name": "limit",
-						"required": true,
+						"required": false,
 						"format": "double",
 						"type": "number"
 					}

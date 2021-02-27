@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 import { Controller, Route, Get, Post, Put, Path, Query, Body, Tags, Delete } from 'tsoa';
 import { AppErrorCode, Database, DataResult, paginate, generatePagination } from '../../../shared';
 import { BranchDTO, CreateBranchDTO, UpdateBranchDTO } from '../dto';
@@ -95,6 +95,35 @@ export class BranchDAO extends Controller {
 
             const branch = await Database.Branches.create(data);
             result.data = (await this.findById(branch.id)).data;
+        } catch (error) {
+            result.error = error;
+        }
+
+        return result;
+    }
+
+    @Post('nearby')
+    public async nearbyBranch(@Query() long: number, @Query() lat: number): Promise<DataResult<BranchDTO[]>> {
+        const result: DataResult<BranchDTO[]> = {};
+
+        try {
+            const branches = await Database.Branches.findAll({
+                attributes: [
+                    'id',
+                    'branch_name',
+                    'latitude',
+                    'longitude',
+                    'opening_hours',
+                    [
+                        Sequelize.literal(`6371 * acos(cos(radians(${lat})) * cos(radians(latitude)) * cos(radians(${long}) - radians(longitude)) + sin(radians(${lat})) * sin(radians(latitude)))`),
+                        'distance'
+                    ],
+                ],
+                include: [{ model: Database.MealPlans }],
+                nest: true
+            });
+
+            result.data = branches as BranchDTO[];
         } catch (error) {
             result.error = error;
         }

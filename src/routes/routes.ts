@@ -269,6 +269,29 @@ export function RegisterRoutes(app: express.Router) {
             promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/api/branches/nearby',
+            function (request: any, response: any, next: any) {
+            const args = {
+                    long: {"in":"query","name":"long","required":true,"dataType":"double"},
+                    lat: {"in":"query","name":"lat","required":true,"dataType":"double"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new BranchDAO();
+
+
+            const promise = controller.nearbyBranch.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, undefined, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/api/branches',
             function (request: any, response: any, next: any) {
             const args = {
@@ -338,8 +361,8 @@ export function RegisterRoutes(app: express.Router) {
         app.get('/api/mealplans',
             function (request: any, response: any, next: any) {
             const args = {
-                    page: {"in":"query","name":"page","required":true,"dataType":"double"},
-                    pageSize: {"in":"query","name":"limit","required":true,"dataType":"double"},
+                    page: {"in":"query","name":"page","dataType":"double"},
+                    pageSize: {"in":"query","name":"limit","dataType":"double"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

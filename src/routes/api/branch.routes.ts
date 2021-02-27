@@ -26,6 +26,7 @@ export const branchesRoute = 'branches';
 interface IBranchDAO {
     fetch(page: number, pageSize: number): Promise<DataResult<BranchDTO[]>>;
     search(column: any, keyword: any, columnOrder: any, order: any, page: number, pageSize: number): Promise<DataResult<BranchDTO[]>>;
+    nearbyBranch(long: number, lat: number): Promise<DataResult<BranchDTO[]>>;
     findById(id: string): Promise<DataResult<BranchDTO>>;
     create(data: CreateBranchDTO): Promise<DataResult<BranchDTO>>;
     update(data: UpdateBranchDTO): Promise<DataResult<BranchDTO>>;
@@ -101,6 +102,39 @@ branchesRouter.post('/search', async (req: Request, res: Response, next: NextFun
                 message: 'Filtered data successfully', 
                 data: result.data,
                 meta: { ...result.pagination },
+                success: true,
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @method POST
+ * @url /api/branches/nearby
+ * @description Get a list of nearby branches
+ * @dao func nearbyBranch()
+ */
+branchesRouter.post('/nearby', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const validationErrors = validationResult(req)
+            .formatWith(validationErrorFormatter)
+            .array({ onlyFirstError: true });
+
+        if (validationErrors.length) {
+            return BadRequest(res, { errors: validationErrors, success: false });
+        } 
+
+        const result = await branchDAO.nearbyBranch(parseFloat(req.query.long as string), parseFloat(req.query.lat as string));
+
+        if (result.error) {
+            next(result.error);
+        } else if (result.data) {
+            Res(res, {
+                code: 200,
+                message: 'Fetched data successfully', 
+                data: result.data,
                 success: true,
             });
         }
